@@ -1,0 +1,98 @@
+1 #force bash shell
+  2 #!/bin/bash
+  3 
+  4 #comments
+  5 #Ashan Roche
+  6 #Student #: 041 019 507
+  7 #Course: 21W CST8102 320 Operating Systems Fund (GNU/Linux)
+  8 #Lab #: 8
+  9 #Lab: Wednesday 8am
+ 10 #Purpose: Create a script file for the purpose of user and group management in Linux.
+ 11 
+ 12 #initialize a dummy value
+ 13 choice=n
+ 14 
+ 15 #while loop syntax - if condition is true, do statements execute. In this case, clear the screen and repeat menu     options.
+ 16 #square brackets - test condition
+ 17 #$ - dereference operator
+ 18 #&& - and
+ 19 
+ 20 while [[ $choice != "q" ]] && [[ $choice != "Q" ]]
+ 21 do
+ 22 clear
+ 23 echo "Choose one of the following options:"
+ 24 echo "A Create a user account"
+ 25 echo "B Delete a user account"
+ 26 echo "C Change supplementary group for a user account"
+ 27 echo "D Change initial group for a user account"
+ 28 echo "E Change default login shell for a user account"
+ 29 echo "F Change account expiration date for a user account. (Enter date as YYYY-MM-DD)"
+ 30 echo "Q Quit"
+ 31 echo "What would you like to do?:"
+ 32 
+ 33 #echo -e -  interpret backslash escape characters; \c to terminate echo without a new line.
+ 34 
+ 35 echo -e "Choice: \c"
+ 36 #stores the contents of the echo input into a variable.
+ 37 read choice
+ 38 echo "You Entered $choice."
+ 39 sleep 3
+ 40 
+ 41 
+ 42 if [ $choice = "A" ] || [ $choice = "a" ]
+ 43 then
+ 44 #read -p: print the prompt text and request input; store input as variable.
+ 45 read -p "Enter Username: " userName
+ 46 read -p "Enter User's home directory: " homeDirectory
+ 47 read -p "Enter Default login shell: " defaultLoginShell
+ 48 #useradd - new user account
+ 49 #-d - specify user's login directory
+ 50 #-m - create home directory if it does not exist
+ 51 #-s - name of the user's login shell
+ 52 useradd -d $homeDirectory -m -s $defaultLoginShell $userName
+ 53 
+ 54 elif [ $choice = "B" ] || [ $choice = "b" ]
+ 55 then
+ 56 read -p "Enter Username: " userName
+ 57 #files in the user's home directory will be removed along with the home directory itself. 
+ 58 userdel -r $userName
+ 59 
+ 60 elif [ $choice = "C" ] || [ $choice = "c" ]
+ 61 then
+ 62 read -p "Enter Username: " userName
+ 63 read -p "Enter Supplementary group name: " groupName
+ 64 #usermod -G - modify supplementary group
+ 65 usermod -G $groupName $userName
+ 66 
+ 67 elif [ $choice = "D" ] || [ $choice = "d" ]
+ 68 then
+ 69 read -p "Enter Username: " userName
+ 70 read -p "Enter Initial group name: " iniGroupName
+ 71 #usermod -g - modify initial group name
+ 72 usermod -g $iniGroupName $userName
+ 73 
+ 74 elif [ $choice = "E" ] || [ $choice = "e" ]
+ 75 then
+ 76 read -p "Enter Username: " userName
+ 77 read -p "Enter Shell name: " shellName
+ 78 #usermod -s specify new login shell
+ 79 usermod -s $shellName $userName
+ 80 
+ 81 elif [ $choice = "F" ] || [ $choice = "f" ]
+ 82 then
+ 83 read -p "Enter Username: " userName
+ 84 read -p "Enter Expiration date: " exprDate
+ 85 #usermod -e - specify date when account will be disabled
+ 86 usermod -e $exprDate $userName
+ 87 
+ 88 else [ $choice = "Q" ] || [ $choice = "q" ]
+ 89 clear
+ 90 
+ 91 fi
+ 92 #end of while loop, go back to line 20 - beginning of while loop.
+ 93 done
+ 94 
+ 95 
+ 96 
+
+
